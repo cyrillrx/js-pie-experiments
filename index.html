@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Pie experiments</title>
+
+  <script src="Chart.js" type="text/javascript"></script>
+  <script src="Chart.PieceLabel.js" type="text/javascript"></script>
+
+  <link id="styleSheetGame" rel="stylesheet" href="style.css" type="text/css">
+</head>
+
+<body>
+
+  <div style="position: absolute;">
+    <canvas width="400" height="400" id="chart"></canvas>
+  </div>
+
+  <div style="position: absolute;">
+    <canvas id="dot" width="400" height="400"></canvas>
+  </div>
+
+</body>
+
+</html>
+
+<script>
+  class Slice {
+    constructor(prob, value) {
+      this.prob = prob;
+      this.value = value;
+    }
+  }
+
+  const pie = [
+    new Slice(5, '140'),
+    new Slice(5, '105'),
+    new Slice(10, '80'),
+    new Slice(25, '125'),
+    new Slice(40, '75'),
+    new Slice(15, '115'),
+  ]
+
+  const data = {
+    labels: [
+      pie[0].value,
+      pie[1].value,
+      pie[2].value,
+      pie[3].value,
+      pie[4].value,
+      pie[5].value,
+    ],
+    datasets: [{
+      label: 'My First dataset',
+      backgroundColor: 'rgb(40, 180, 256)',
+      borderColor: 'rgb(0, 0, 0)',
+      data: [
+        pie[0].prob,
+        pie[1].prob,
+        pie[2].prob,
+        pie[3].prob,
+        pie[4].prob,
+        pie[5].prob,
+      ],
+    }]
+  };
+
+  const options = {
+    responisve: true,// in case people resize their windows
+    maintainAspectRatio: false, // otherwise it does not fill the box
+    events: [], // prevents action on hovering
+    animation: {
+      duration: 0
+    },
+    legend: {
+      display: false,
+    },
+    pieceLabel: {
+      render: 'label',
+      fontColor: '#000',
+      fontSize: 16,
+      fontStyle: 'bold',
+      overlap: true,
+      position: 'default'
+    }
+  }
+
+  const config = {
+    type: 'pie',
+    data: data,
+    options: options,
+  };
+
+  const chart = new Chart(
+    document.getElementById('chart'),
+    config,
+  );
+
+  const dot = document.getElementById('dot')
+  var context = dot.getContext('2d');
+  var centerX = dot.width / 2;
+  var centerY = dot.height / 2;
+  var radius = 5;
+
+  context.beginPath();
+  context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+  context.fillStyle = 'red';
+  context.fill();
+  context.lineWidth = 2;
+  context.strokeStyle = '#000';
+  context.stroke();
+</script>
